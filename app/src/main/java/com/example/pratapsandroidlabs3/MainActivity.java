@@ -1,24 +1,49 @@
 package com.example.pratapsandroidlabs3;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
 
+    ImageView imgView;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch sw;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        imgView = findViewById(R.id.imageView);
+        sw = findViewById(R.id.spin_switch);
+
+
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (isChecked)
+            {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(5000);
+                rotate.setRepeatCount(Animation.INFINITE);
+                rotate.setInterpolator(new LinearInterpolator());
+                imgView.startAnimation(rotate);
+            }
+            else
+            {
+
+                imgView.clearAnimation();
+
+            }
+
         });
     }
+
+
 }
